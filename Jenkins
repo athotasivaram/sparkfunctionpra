@@ -4,20 +4,20 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: '6bc9d8b8-ec4b-4b5a-ae4c-f1fce0f9a3a7', url: 'https://github.com/athotasivaram/Devopsgit.git'
+                git credentialsId: '6bc9d8b8-ec4b-4b5a-ae4c-f1fce0f9a3a7', url: 'https://github.com/athotasivaram/sparkfunctionpra.git'
             }
         }
         stage("Maven Build"){
             steps{
                 sh "mvn clean package"
-                sh "mv target/*.war target/myweb.war"
+                sh "mv target/*.war target/sparkfunctionpra.war"
             }
         }
         stage("deploy-dev"){
             steps{
                 sshagent(['1c1c2bda-d1f3-482a-878a-57822d5aee60']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb.war  ec2-user@172.31.35.83:/home/ec2-user/apache-tomcat-9.0.73/sivaram/
+                    scp -o StrictHostKeyChecking=no target/sparkfunctionpra.war  ec2-user@172.31.35.83:/home/ec2-user/apache-tomcat-9.0.73/sivaram/
                     
                     ssh ec2-user@172.31.35.83 /home/ec2-user/apache-tomcat-9.0.73/bin/shutdown.sh
                     
